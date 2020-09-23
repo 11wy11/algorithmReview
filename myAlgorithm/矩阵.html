@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+</head>
+<body>
+    <span id="app">
+        <ul v-for="(row,index) in matrix" :key="index">
+            <li v-for="(item,index1) in row" :key="index1">
+                {{item}}
+            </li>
+        </ul>
+        <span v-for="item in result">{{item}}</span>
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script>
+    
+
+    function printMatrix(matrix)
+{
+    // write code here
+    let result=[]
+    if(!matrix.length||!matrix){
+        return result
+    }
+    let row = matrix.length;
+    let col = matrix[0].length;
+    if(col==0){
+        return result;
+    }
+    // 定义四个关键变量，表示左上和右下的打印范围
+     let left = 0, top = 0, right = col - 1, bottom = row - 1;
+     while (left <= right && top <= bottom)
+        {
+            // left to right
+            for (let i = left; i <= right; ++i){
+               result.push(matrix[top][i]); 
+            }  
+            // top to bottom
+            for (let i = top + 1; i <= bottom; ++i){
+              result.push(matrix[i][right]);  
+            }  
+            // right to left
+            if (top != bottom){
+                for (let i = right - 1; i >= left; --i){
+                     result.push(matrix[bottom][i]);
+                }             
+            }
+            // bottom to top
+            if (left != right){
+                for (let i = bottom - 1; i > top; --i){
+                    result.push(matrix[i][left]);
+                }  
+             
+            }
+            left++,top++,right--,bottom--;
+        }
+    return result;
+}
+let value=0;
+let matrix=[]
+for(let i=0;i<4;i++){
+   let submatrix=[]
+   for(let j=0;j<4;j++ ){
+       value++;
+       submatrix.push(value);
+   }
+   matrix.push(submatrix)
+}
+let result=printMatrix(matrix);
+var app= new Vue({
+				el:"#app",
+				data:{
+                    matrix:matrix,
+                    result:result
+				},		 
+        });
+function deleteTreeNode(root,value){
+    // 排序二叉树删除节点
+    let target=searchNode(root,value)
+    if(target.left==null&&target.right==null){
+        target=null;
+    }else if(target.left==null&&target.right!=null){
+        target=target.right
+    }
+    else if(target.right==null&&target.left!=null){
+        target=target.left
+    }else{
+        //目标节点有两个子节点
+        let node =target.right
+        let result=inOrder(node);
+        let temp=result[0];
+        result[0]=target;
+        target=null;
+    }
+
+}
+function searchNode(root ,value){
+    if(!root){
+        return null;
+    }
+    if(root.val<value){
+        return searchNode(root.right,value);
+    }else{
+        return searchNode(root.left,value);
+    }
+
+}
+function inOrder(root){
+    let result=[]
+    result.push(result)
+    if(root.left){
+        result=Object.assign(result,inOrder(root.left))
+    }
+    if(root.right){
+        result=Object.assign(result,inOrder(root.right))
+    }
+    return result;
+}
+</script>

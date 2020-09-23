@@ -1,0 +1,104 @@
+### 第一题:
+
+/**
+ * 输入:  字符串str1，  字符串str2
+ * 输出:  字符串str2在字符串str1中第一次出现的位置。如果没有返回-1.
+ * 例如：  str1=“www.taobao.com”  str2="taobao"    ->    4
+ * 其它要求：原生JS实现，不能使用String类的indexOf方法以及其它封装好的方法
+ */
+function findStrIndex(str1, str2) {
+   let len2=str2.length;
+   let len1=str1.length;
+   let k = 0;
+   let j = 0;
+   let index = -1;
+   for(let i = 0; i<len1;i++){
+       if(str1[i] === str2[i]) {  
+         j=i+1;
+         k=1;
+         while(k<len2) {
+           if(str1[j] !== str2[k]{
+             break;
+           }
+             j++;
+             k++;
+         }
+         if(k === len2) {
+            index = i;
+            break;
+         }
+       }
+   }
+  return index;
+}
+//O(n^2) 可以通过next数组减少回溯
+
+### 第二题
+
+/**
+ * 输入一个int数组，输出一个int数组，要求：
+ * 1. 输出数组的元素是输入数组中出现频率>k次的元素
+ * 2. 输出数组需要按照元素出现频率的高低进行排序
+ * 3. 实现尽可能高效, 并给出时间复杂度
+ */
+function findArray(arr, k) { 
+   let map = {};
+   let result = [];
+   for(let i = 0, len = arr.length; i < len; i++){
+      if(map.hasOwnProperty(arr[i])){
+        map[arr[i]] += 1;
+      }else{
+        map[arr[i]] = 1;
+      }
+   }
+   for(let item in map){
+     if(map[item]>k){
+       result.push({key:item,value:map[item]});
+     }
+   }
+   result.sort(function(a,b){
+     return b.value-a.value;
+   })
+   return result.map(item=>item.key);  
+  //时间复杂度O(n*[数组中所有不同的元素个数]*[数组中所有不同的元素个数]*[数组中所有不同的元素个数])
+}
+ 
+function findArray2(arr, k){
+   if(arr.length==0){
+     return [];
+   }
+   arr.sort(function(a,b){
+      return b-a;
+   })  
+   let len = arr.length;
+   let count=1;
+   let pre=arr[0];
+   let result = [];
+   for(let i = 1;i<len; i++){
+      if(pre===arr[i]){
+         count++:
+      }else{
+         if(count>k){
+           result.push(pre);
+         }
+         pre = arr[i]
+         count=1;
+      }     
+   } 
+   return result;
+   //时间复杂度O(n^2)
+}
+                
+ 
+
+### 第三题: n级台阶
+/**
+ * 一次可以爬一个1台阶，也可以爬2个台阶。问当有n个台阶有多少种走法。要求在尽量短的时间计算出来
+ */
+
+function getFloor(n){
+  if(n<=2){
+    return n;
+  }
+   return getFloor(n-1)+getFloor(n-2);
+}
